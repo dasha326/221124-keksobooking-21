@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Дарья Шестерина](https://up.htmlacademy.ru/javascript/21/user/221124).
-* Наставник: `Неизвестно`.
+* Наставник: Павел Ившин.
 
 ---
 
