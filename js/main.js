@@ -1,9 +1,75 @@
 'use strict';
-
 const map = document.querySelector('.map');
-const mapPinsContainer = document.querySelector('.map__pins')
+const mapPinsContainer = document.querySelector('.map__pins');
+const startPin = document.querySelector('.map__pin--main');
 const mapWidth = map.offsetWidth;
+const mainPin = document.querySelector('.map__pin--main');
+const addForm = document.querySelector('.ad-form');
+const addFormFieldSets = addForm.querySelectorAll('fieldset');
+const roomNumberField = document.querySelector('#room_number');
+const capacityField = document.querySelector('#capacity');
+const capacityFieldOptions = document.querySelectorAll('#capacity option');
+const addressField = document.querySelector('#address');
 let infoObjects = [];
+
+
+let startPinLocation = {
+  x: parseInt(startPin.style.left) - startPin.offsetWidth / 2,
+  y: parseInt(startPin.style.top) - startPin.offsetHeight
+};
+
+addressField.value = startPinLocation.x + ', ' + startPinLocation.y;
+
+let addActiveClass = function () {
+  addFormFieldSets.forEach(function (element) {
+    element.removeAttribute('disabled');
+  });
+  map.classList.remove('map--faded');
+  addForm.classList.remove('ad-form--disabled');
+};
+
+addFormFieldSets.forEach(function (element) {
+  element.setAttribute('disabled', 'disabled');
+});
+
+mainPin.addEventListener('mousedown', function (e) {
+  if (e.button === 0) {
+    addActiveClass();
+  }
+});
+mainPin.addEventListener('keydown', function (e) {
+  if (e.key === 'Enter') {
+    addActiveClass();
+  }
+});
+
+let resetFieldOption = function () {
+  capacityField.value = '';
+  capacityFieldOptions.forEach(function (element) {
+    if (element.value !== '') {
+      element.disabled = true;
+    }
+  });
+};
+resetFieldOption();
+let activateCapacityFieldOption = function (count, elements) {
+  count = parseInt(count);
+  if (count <= 3) {
+    for (let i = count; i > 0; i--) {
+      let element = elements.querySelector('[value="' + i + '"]')
+      element.disabled = false;
+    }
+  } else if (count === 100) {
+    count = 0;
+    let element = elements.querySelector('[value="' + count + '"]');
+    element.disabled = false;
+  }
+};
+roomNumberField.addEventListener('change', function () {
+  resetFieldOption();
+  activateCapacityFieldOption(roomNumberField.value, capacityField);
+});
+
 
 function randomInteger(min, max) {
   let rand = min + Math.random() * (max + 1 - min);
@@ -25,16 +91,16 @@ let createPin = function (positionX, positionY, src, title) {
   let newPin = makeElement('button', 'map__pin');
   let pinImg = makeElement('img', undefined, undefined, src);
   pinImg.alt = title;
-  newPin.setAttribute('style', 'left: ' + (positionX + 10) + 'px; top: ' + positionY + 'px;');
+  newPin.setAttribute('style', 'left: ' + (positionX - newPin.offsetWidth) + 'px; top: ' + (positionY - newPin.offsetHeight) + 'px;');
   newPin.appendChild(pinImg);
   mapPinsContainer.appendChild(newPin);
 };
 
-for (let i = 0; i <= 7; i++) {
+for (let i = 0; i <= 0; i++) {
   let randowCount = randomInteger(1, 4);
   let mapPositionY = randomInteger(130, 630);
   let mapPositionX = randomInteger(130, mapWidth);
-
+console.log(mapPositionY, mapPositionX);
   let type, rooms, guest, checkin, checkout;
   if (randowCount === 1) {
     type = 'palace';
@@ -71,7 +137,7 @@ for (let i = 0; i <= 7; i++) {
       },
       "offer": {
         "title": 'строка, заголовок предложения',
-        "address": '600, 350',
+        "address": 'Улица Тестовая, д. 5',
         "price": 0,
         "type": type,
         "rooms": rooms,
