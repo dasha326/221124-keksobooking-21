@@ -2,6 +2,8 @@
 
 (function () {
   const startPin = document.querySelector('.map__pin--main');
+  window.pinCount = 7;
+  window.infoObjects = [];
   window.startPinLocation = {
     x: parseInt(startPin.style.left) - startPin.offsetWidth / 2,
     y: parseInt(startPin.style.top) - startPin.offsetHeight
@@ -14,10 +16,12 @@
     newPin.appendChild(pinImg);
     window.mapPinsContainer.appendChild(newPin);
   };
-
-  for (let i = 0; i <= window.pinCount; i++) {
-    createPin(window.infoObjects[i]["location"]["x"], window.infoObjects[i]["location"]["y"], window.infoObjects[i]["author"]["avatar"], window.infoObjects[i]["offer"]["title"]);
-  }
+  window.dataHandler = function (data) {
+    window.infoObjects = window.infoObjects.concat(data);
+    for (let i = 0; i <= window.pinCount; i++) {
+      createPin(window.infoObjects[i]["location"]["x"], window.infoObjects[i]["location"]["y"], window.infoObjects[i]["author"]["avatar"], window.infoObjects[i]["offer"]["title"]);
+    }
+  };
   startPin.addEventListener('mousedown', function (e) {
     if (e.button === 0) {
       window.util.addActiveClass();
