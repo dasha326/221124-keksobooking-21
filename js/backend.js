@@ -5,7 +5,6 @@
       let url = 'https://21.javascript.pages.academy/keksobooking/data';
       let xhr = new XMLHttpRequest();
       xhr.responseType = 'json';
-      JSON.parse
       xhr.timeout = 10000;
 
       xhr.open('GET', url);
