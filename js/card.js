@@ -1,8 +1,12 @@
 'use strict';
+
 (function () {
+  // Create Card
   const cardTemplate = document.querySelector('#card').content;
-  window.createCard = function (title, address, price, type, rooms, guests, checkin, checkout, features, description, photos, avatar, fragment) {
+  window.createCard = function (title, address, price, type, rooms, guests, checkin, checkout, features, description, photos, avatar, number, fragment) {
     let newCard = cardTemplate.querySelector('.map__card').cloneNode(true);
+    newCard.dataset.user = 'user-' + number;
+    newCard.style.display = 'none';
 
     // Title
     let cardTitle = newCard.querySelector('.popup__title');
@@ -37,7 +41,7 @@
 
     // Capacity
     let cardCapacity = newCard.querySelector('.popup__text--capacity');
-    cardCapacity.textContent = rooms + ' комнаты для ' + guests + 'гостей';
+    cardCapacity.textContent = rooms + ' комнаты для ' + guests + ' гостей';
 
     // Time
     let cardTime = newCard.querySelector('.popup__text--time');
@@ -65,7 +69,33 @@
     let cardAvatar = newCard.querySelector('.popup__avatar');
     cardAvatar.src = avatar;
 
+    // Close btn
+    let cardClose = newCard.querySelector('.popup__close');
+    cardClose.addEventListener('click', function () {
+      window.closeCard(newCard);
+    });
+    cardClose.addEventListener('keydown', function (e) {
+      window.util.isEnterEvent(e, window.closeCard, newCard);
+    });
+    document.addEventListener('keydown', function (e) {
+      window.util.isEscEvent(e, window.closeCard, newCard);
+    });
+
     fragment.append(newCard);
     return fragment;
+  };
+
+  window.openCard = function (userId) {
+    let userCard = document.querySelectorAll('.map__card');
+    userCard.forEach(function (element) {
+      if (element.dataset.user === userId) {
+        element.style.display = 'block';
+      } else {
+        element.style.display = 'none';
+      }
+    });
+  };
+  window.closeCard = function (element) {
+    element.style.display = 'none';
   };
 })();
