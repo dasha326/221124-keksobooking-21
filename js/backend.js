@@ -5,7 +5,6 @@
       let url = 'https://21.javascript.pages.academy/keksobooking/data';
       let xhr = new XMLHttpRequest();
       xhr.responseType = 'json';
-      JSON.parse
       xhr.timeout = 10000;
 
       xhr.open('GET', url);
@@ -33,6 +32,9 @@
       xhr.addEventListener('timeout', function () {
         onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
       });
+    },
+    upload: function (data, onLoad, onError) {
+
     },
     errorMessage: function (error) {
       let errorElement = document.createElement('div');
