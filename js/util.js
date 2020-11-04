@@ -5,6 +5,7 @@
   window.map = document.querySelector('.map');
   window.mapWidth = window.map.offsetWidth;
   window.mapPinsContainer = document.querySelector('.map__pins');
+  window.addressField = document.querySelector('#address');
   window.addForm = document.querySelector('.ad-form');
   window.addFormFieldsets = window.addForm.querySelectorAll('fieldset');
   window.mapFilter = document.querySelector('.map__filters-container');
