@@ -9,7 +9,6 @@
   const roomNumberField = document.querySelector('#room_number');
   const capacityField = document.querySelector('#capacity');
   const capacityFieldOptions = document.querySelectorAll('#capacity option');
-  const addressField = document.querySelector('#address');
   const timeinField = document.querySelector('#timein');
   const timeoutField = document.querySelector('#timeout');
 
@@ -22,7 +21,7 @@
     });
   };
 
-  addressField.value = window.startPinLocation.x + ', ' + window.startPinLocation.y;
+  window.addressField.value = window.startPinLocation.x + ', ' + window.startPinLocation.y;
   resetSelectOption(capacityField, capacityFieldOptions);
 
   let activateCapacityFieldOption = function (count, elements) {
