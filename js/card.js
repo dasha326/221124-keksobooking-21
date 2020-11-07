@@ -72,13 +72,13 @@
     // Close btn
     let cardClose = newCard.querySelector('.popup__close');
     cardClose.addEventListener('click', function () {
-      window.closeCard(newCard);
+      window.util.closeHandler(newCard);
     });
     cardClose.addEventListener('keydown', function (e) {
-      window.util.isEnterEvent(e, window.closeCard, newCard);
+      window.util.isEnterEvent(e, window.util.closeHandler, newCard);
     });
     document.addEventListener('keydown', function (e) {
-      window.util.isEscEvent(e, window.closeCard, newCard);
+      window.util.isEscEvent(e, window.util.closeHandler, newCard);
     });
 
     fragment.append(newCard);
@@ -94,8 +94,5 @@
         element.style.display = 'none';
       }
     });
-  };
-  window.closeCard = function (element) {
-    element.style.display = 'none';
   };
 })();

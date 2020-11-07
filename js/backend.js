@@ -34,7 +34,20 @@
       });
     },
     upload: function (data, onLoad, onError) {
-
+      let url = 'https://21.javascript.pages.academy/keksobooking';
+      let xhr = new XMLHttpRequest();
+      xhr.open('POST', url);
+      xhr.send(data);
+      xhr.addEventListener('load', function () {
+        if (xhr.status === 200) {
+          onLoad();
+        } else {
+          onError();
+        }
+      });
+      xhr.addEventListener('error', function () {
+        onError();
+      });
     },
     errorMessage: function (error) {
       let errorElement = document.createElement('div');

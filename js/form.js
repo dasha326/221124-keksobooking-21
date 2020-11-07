@@ -11,7 +11,7 @@
   const capacityFieldOptions = document.querySelectorAll('#capacity option');
   const timeinField = document.querySelector('#timein');
   const timeoutField = document.querySelector('#timeout');
-
+  const resetBtn = document.querySelector('.ad-form__reset');
   let resetSelectOption = function (select, option) {
     select.value = '';
     option.forEach(function (element) {
@@ -43,27 +43,42 @@
   });
 
   // Validate
-  titleField.addEventListener('blur', function () {
-    let valueLength = this.value.length;
+  let titleValid = function (element) {
+    let valueLength = element.value.length;
     let minErrorMessage = 'Минимальное колличество символов: ' + MIN_TITLE_LENGTH + '. У вас: ' + valueLength;
     let maxErrorMessage = 'Минимальное колличество символов: ' + MAX_TITLE_LENGTH + '. У вас: ' + valueLength;
     if (valueLength < MIN_TITLE_LENGTH) {
-      window.util.validMessage(this, minErrorMessage);
+      window.util.validMessage(element, minErrorMessage);
     } else if (valueLength > MAX_TITLE_LENGTH) {
-      window.util.validMessage(this, maxErrorMessage);
+      window.util.validMessage(element, maxErrorMessage);
     } else {
-      window.util.validMessage(this, '');
+      window.util.validMessage(element, '');
     }
-    this.reportValidity();
+    element.reportValidity();
+  };
+
+  let click = 1;
+  titleField.addEventListener('focus', function () {
+    if (click > 1) {
+      titleField.addEventListener('input', function () {
+        titleValid(this);
+      });
+    }
+    click++;
+  });
+  titleField.addEventListener('blur', function () {
+    titleValid(this);
   });
   priceField.addEventListener('blur', function () {
     let price = parseInt(this.value, 10);
     let type = typeField.value;
     let minErrorMessage = 'Минимальная цена за ночь: ';
     let maxErrorMessage = 'Вы превысили максимальную цену за ночь ';
+    console.log(type, price);
     switch (type) {
       case 'flat':
         if (price < 1000) {
+          console.log(1235);
           window.util.validMessage(this, minErrorMessage + '1000');
         } else {
           window.util.validMessage(this, '');
@@ -97,5 +112,31 @@
   });
   timeoutField.addEventListener('change', function () {
     timeinField.value = this.value;
+  });
+
+  let createError = function () {
+    let newErrorTemplate = document.querySelector('#error').content;
+    let newError = newErrorTemplate.querySelector('.error').cloneNode(true);
+    let newErrorCloseBtn = newError.querySelector('.error__button');
+
+    newErrorCloseBtn.addEventListener('click', function () {
+      newError.remove();
+    });
+
+    document.querySelector('main').append(newError);
+  };
+
+  window.addForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    window.backend.upload(new FormData(window.addForm), window.util.removeActive, createError);
+  });
+
+  // Reset form
+  resetBtn.addEventListener('click', function () {
+    let addressValue = window.addressField.value;
+    window.addForm.reset();
+    setTimeout(function () {
+      window.addressField.value = addressValue;
+    }, 0);
   });
 })();
