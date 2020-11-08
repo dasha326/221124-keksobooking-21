@@ -12,6 +12,7 @@
   const timeinField = document.querySelector('#timein');
   const timeoutField = document.querySelector('#timeout');
   const resetBtn = document.querySelector('.ad-form__reset');
+
   let resetSelectOption = function (select, option) {
     select.value = '';
     option.forEach(function (element) {
@@ -20,10 +21,6 @@
       }
     });
   };
-
-  window.addressField.value = window.startPinLocation.x + ', ' + window.startPinLocation.y;
-  resetSelectOption(capacityField, capacityFieldOptions);
-
   let activateCapacityFieldOption = function (count, elements) {
     count = parseInt(count, 10);
     if (count <= 3) {
@@ -37,9 +34,16 @@
       element.disabled = false;
     }
   };
-  roomNumberField.addEventListener('change', function () {
+  let changeCapacityField = function() {
     resetSelectOption(capacityField, capacityFieldOptions);
     activateCapacityFieldOption(roomNumberField.value, capacityField);
+  };
+
+  window.addressField.value = window.startPinLocation.x + ', ' + window.startPinLocation.y;
+  changeCapacityField();
+
+  roomNumberField.addEventListener('change', function () {
+    changeCapacityField();
   });
 
   // Validate
@@ -74,11 +78,9 @@
     let type = typeField.value;
     let minErrorMessage = 'Минимальная цена за ночь: ';
     let maxErrorMessage = 'Вы превысили максимальную цену за ночь ';
-    console.log(type, price);
     switch (type) {
       case 'flat':
         if (price < 1000) {
-          console.log(1235);
           window.util.validMessage(this, minErrorMessage + '1000');
         } else {
           window.util.validMessage(this, '');
@@ -122,13 +124,27 @@
     newErrorCloseBtn.addEventListener('click', function () {
       newError.remove();
     });
-
     document.querySelector('main').append(newError);
+  };
+  let createSuccess = function () {
+    let newSuccessTemplate = document.querySelector('#success').content;
+    let newSuccess = newSuccessTemplate.querySelector('.success').cloneNode(true);
+    document.addEventListener('keydown', function (e) {
+      window.util.isEscEvent(e, successClose, newSuccess);
+    });
+    document.addEventListener('click', function () {
+      successClose(newSuccess);
+    });
+    document.querySelector('main').append(newSuccess);
+    window.util.removeActive();
+  };
+  let successClose = function (element) {
+    element.remove();
   };
 
   window.addForm.addEventListener('submit', function (e) {
     e.preventDefault();
-    window.backend.upload(new FormData(window.addForm), window.util.removeActive, createError);
+    window.backend.upload(new FormData(window.addForm), createSuccess, createError);
   });
 
   // Reset form

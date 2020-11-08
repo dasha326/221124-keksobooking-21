@@ -34,7 +34,7 @@
     },
     removeActive: function () {
       window.addFormFieldsets.forEach(function (element) {
-        element.setAttribute('disabled', 'didabled');
+        element.setAttribute('disabled', 'disabled');
       });
       window.map.classList.add('map--faded');
       window.addForm.classList.add('ad-form--disabled');
