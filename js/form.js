@@ -11,6 +11,7 @@
   const capacityFieldOptions = document.querySelectorAll('#capacity option');
   const timeinField = document.querySelector('#timein');
   const timeoutField = document.querySelector('#timeout');
+  const resetBtn = document.querySelector('.ad-form__reset');
 
   let resetSelectOption = function (select, option) {
     select.value = '';
@@ -20,10 +21,6 @@
       }
     });
   };
-
-  window.addressField.value = window.startPinLocation.x + ', ' + window.startPinLocation.y;
-  resetSelectOption(capacityField, capacityFieldOptions);
-
   let activateCapacityFieldOption = function (count, elements) {
     count = parseInt(count, 10);
     if (count <= 3) {
@@ -37,24 +34,44 @@
       element.disabled = false;
     }
   };
-  roomNumberField.addEventListener('change', function () {
+  let changeCapacityField = function() {
     resetSelectOption(capacityField, capacityFieldOptions);
     activateCapacityFieldOption(roomNumberField.value, capacityField);
+  };
+
+  window.addressField.value = window.startPinLocation.x + ', ' + window.startPinLocation.y;
+  changeCapacityField();
+
+  roomNumberField.addEventListener('change', function () {
+    changeCapacityField();
   });
 
   // Validate
-  titleField.addEventListener('blur', function () {
-    let valueLength = this.value.length;
+  let titleValid = function (element) {
+    let valueLength = element.value.length;
     let minErrorMessage = 'Минимальное колличество символов: ' + MIN_TITLE_LENGTH + '. У вас: ' + valueLength;
     let maxErrorMessage = 'Минимальное колличество символов: ' + MAX_TITLE_LENGTH + '. У вас: ' + valueLength;
     if (valueLength < MIN_TITLE_LENGTH) {
-      window.util.validMessage(this, minErrorMessage);
+      window.util.validMessage(element, minErrorMessage);
     } else if (valueLength > MAX_TITLE_LENGTH) {
-      window.util.validMessage(this, maxErrorMessage);
+      window.util.validMessage(element, maxErrorMessage);
     } else {
-      window.util.validMessage(this, '');
+      window.util.validMessage(element, '');
     }
-    this.reportValidity();
+    element.reportValidity();
+  };
+
+  let click = 1;
+  titleField.addEventListener('focus', function () {
+    if (click > 1) {
+      titleField.addEventListener('input', function () {
+        titleValid(this);
+      });
+    }
+    click++;
+  });
+  titleField.addEventListener('blur', function () {
+    titleValid(this);
   });
   priceField.addEventListener('blur', function () {
     let price = parseInt(this.value, 10);
@@ -97,5 +114,45 @@
   });
   timeoutField.addEventListener('change', function () {
     timeinField.value = this.value;
+  });
+
+  let createError = function () {
+    let newErrorTemplate = document.querySelector('#error').content;
+    let newError = newErrorTemplate.querySelector('.error').cloneNode(true);
+    let newErrorCloseBtn = newError.querySelector('.error__button');
+
+    newErrorCloseBtn.addEventListener('click', function () {
+      newError.remove();
+    });
+    document.querySelector('main').append(newError);
+  };
+  let createSuccess = function () {
+    let newSuccessTemplate = document.querySelector('#success').content;
+    let newSuccess = newSuccessTemplate.querySelector('.success').cloneNode(true);
+    document.addEventListener('keydown', function (e) {
+      window.util.isEscEvent(e, successClose, newSuccess);
+    });
+    document.addEventListener('click', function () {
+      successClose(newSuccess);
+    });
+    document.querySelector('main').append(newSuccess);
+    window.util.removeActive();
+  };
+  let successClose = function (element) {
+    element.remove();
+  };
+
+  window.addForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    window.backend.upload(new FormData(window.addForm), createSuccess, createError);
+  });
+
+  // Reset form
+  resetBtn.addEventListener('click', function () {
+    let addressValue = window.addressField.value;
+    window.addForm.reset();
+    setTimeout(function () {
+      window.addressField.value = addressValue;
+    }, 0);
   });
 })();

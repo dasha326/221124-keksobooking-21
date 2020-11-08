@@ -9,7 +9,7 @@
   };
 
   startPin.addEventListener('keydown', function (e) {
-    window.util.isEnterEvent(e, window.util.addActiveClass);
+    window.util.isEnterEvent(e, window.util.addActive);
   });
 
   startPin.addEventListener('mousedown', function (e) {
@@ -21,18 +21,14 @@
 
     let moveOn = function (evtMove) {
       evtMove.preventDefault();
-
-
       let shift = {
         x: startCoords.x - evtMove.clientX,
         y: startCoords.y - evtMove.clientY
       };
-
       startCoords = {
         x: evtMove.clientX,
         y: evtMove.clientY
       };
-
       startPin.style.top = (startPin.offsetTop - shift.y) + 'px';
       startPin.style.left = (startPin.offsetLeft - shift.x) + 'px';
       window.startPinLocation = {
@@ -56,7 +52,7 @@
     };
     let moveUp = function () {
       document.removeEventListener('mousemove', moveOn);
-      window.util.addActiveClass();
+      window.util.addActive();
     };
 
     document.addEventListener('mousemove', moveOn);

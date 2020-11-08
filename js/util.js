@@ -25,15 +25,25 @@
         action(element);
       }
     },
-    addActiveClass: function () {
+    addActive: function () {
       window.addFormFieldsets.forEach(function (element) {
         element.removeAttribute('disabled');
       });
       window.map.classList.remove('map--faded');
       window.addForm.classList.remove('ad-form--disabled');
     },
+    removeActive: function () {
+      window.addFormFieldsets.forEach(function (element) {
+        element.setAttribute('disabled', 'disabled');
+      });
+      window.map.classList.add('map--faded');
+      window.addForm.classList.add('ad-form--disabled');
+    },
     validMessage: function (element, message) {
       element.setCustomValidity(message);
+    },
+    closeHandler: function (element) {
+      element.style.display = 'none';
     }
   };
 })();
