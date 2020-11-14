@@ -1,21 +1,6 @@
 'use strict';
 const MAX_PINS = 5;
-let elementsData = [];
 
-const filterForm = document.querySelector('.map__filters');
-const housingType = filterForm.querySelector('#housing-type');
-let housingTypeValue = housingType.value;
-
-housingType.addEventListener('change', function () {
-  housingTypeValue = this.value;
-  window.filterType(elementsData, housingTypeValue);
-});
-window.filterType = function (data, filterValue) {
-  let newElements = data.filter(function (element) {
-    return element['offer']['type'] === filterValue;
-  });
-  window.updateElements(newElements);
-};
 window.updateElements = function (data) {
   let maxPins = data.length < MAX_PINS ? data.length : MAX_PINS;
   const pins = window.mapPinsContainer.querySelectorAll('.map__pin');
@@ -44,7 +29,7 @@ window.dataHandler = function (data) {
   }
   window.mapPinsContainer.append(pinsFragment);
   window.mapFilter.before(cardsFragment);
-  elementsData = data;
-  window.updateElements(elementsData);
+  window.elementsData = data;
+  window.updateElements(window.elementsData);
 };
 window.backend.load(window.dataHandler, window.backend.errorMessage);

@@ -9,6 +9,7 @@
   window.addForm = document.querySelector('.ad-form');
   window.addFormFieldsets = window.addForm.querySelectorAll('fieldset');
   window.mapFilter = document.querySelector('.map__filters-container');
+  window.elementsData = [];
 
   window.util = {
     randomInteger: function (min, max) {
