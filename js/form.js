@@ -11,7 +11,9 @@
   const capacityFieldOptions = document.querySelectorAll('#capacity option');
   const timeinField = document.querySelector('#timein');
   const timeoutField = document.querySelector('#timeout');
+  const sendBtn = document.querySelector('.ad-form__element--submit');
   const resetBtn = document.querySelector('.ad-form__reset');
+  const requiredInputs = window.addForm.querySelectorAll('input[required]')
 
   let resetSelectOption = function (select, option) {
     select.value = '';
@@ -46,6 +48,23 @@
     changeCapacityField();
   });
 
+  typeField.addEventListener('change', function () {
+    switch (typeField.value) {
+      case 'bungalow':
+        priceField.placeholder = 0;
+        break;
+      case 'flat':
+        priceField.placeholder = 1000;
+        break;
+      case 'house':
+        priceField.placeholder = 5000;
+        break;
+      case 'palace':
+        priceField.placeholder = 10000;
+        break;
+    }
+  });
+
   // Validate
   let titleValid = function (element) {
     let valueLength = element.value.length;
@@ -60,7 +79,6 @@
     }
     element.reportValidity();
   };
-
   let click = 1;
   titleField.addEventListener('focus', function () {
     if (click > 1) {
@@ -73,6 +91,7 @@
   titleField.addEventListener('blur', function () {
     titleValid(this);
   });
+
   priceField.addEventListener('blur', function () {
     let price = parseInt(this.value, 10);
     let type = typeField.value;
@@ -101,7 +120,6 @@
         }
         break;
     }
-
     if (price > 1000000) {
       window.util.validMessage(this, maxErrorMessage);
     } else {
@@ -109,6 +127,7 @@
     }
     this.reportValidity();
   });
+
   timeinField.addEventListener('change', function () {
     timeoutField.value = this.value;
   });
@@ -141,6 +160,17 @@
   let successClose = function (element) {
     element.remove();
   };
+
+  let addInvalidStyle = function (element) {
+    element.addEventListener('invalid', function (e) {
+      if (element.validity.valid === false) {
+        element.classList.add('error-input');
+      }
+    });
+  };
+  requiredInputs.forEach(function (element) {
+    addInvalidStyle(element);
+  })
 
   window.addForm.addEventListener('submit', function (e) {
     e.preventDefault();

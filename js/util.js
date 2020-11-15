@@ -32,6 +32,7 @@
       });
       window.map.classList.remove('map--faded');
       window.addForm.classList.remove('ad-form--disabled');
+      window.backend.load(window.dataHandler, window.backend.errorMessage);
     },
     removeActive: function () {
       window.addFormFieldsets.forEach(function (element) {

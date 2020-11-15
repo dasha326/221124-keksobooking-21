@@ -17,13 +17,16 @@ window.updateElements = function (data) {
     let userId = data[i].id;
     let activePin = document.querySelector('.map__pin[data-user="user-' + userId + '"]');
     activePin.style.display = 'block';
-  };
+  }
 };
 window.dataHandler = function (data) {
   let pinsFragment = new DocumentFragment();
   let cardsFragment = new DocumentFragment();
   for (let i = 0; i < data.length; i++) {
     data[i].id = i;
+    // if (data[i]['offer'].length > 0) {
+    //   console.log(3222);
+    // }
     window.createPin(data[i][`location`][`x`], data[i][`location`][`y`], data[i][`author`][`avatar`], data[i][`offer`][`title`], i, pinsFragment);
     window.createCard(data[i]['offer']['title'], data[i]['offer']['address'], data[i]['offer']['price'], data[i]['offer']['type'], data[i]['offer']['rooms'], data[i]['offer']['guests'], data[i]['offer']['checkin'], data[i]['offer']['checkout'], data[i]['offer']['features'], data[i]['offer']['description'], data[i]['offer']['photos'], data[i][`author`][`avatar`], i, cardsFragment);
   }
@@ -32,4 +35,3 @@ window.dataHandler = function (data) {
   window.elementsData = data;
   window.updateElements(window.elementsData);
 };
-window.backend.load(window.dataHandler, window.backend.errorMessage);

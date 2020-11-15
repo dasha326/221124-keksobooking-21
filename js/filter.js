@@ -56,17 +56,12 @@ window.filterHandler = function (data, event) {
   }
 
   if (event.target.matches('input[type="checkbox"]')) {
-    let housingFeaturesItems = housingFeatures.querySelectorAll('input[type="checkbox"]:checked');
-    let housingFeaturesFilterData;
-    housingFeaturesItems.forEach(function (el) {
-      housingFeaturesFilterData = filterData.filter(function (element) {
-        return element['offer']['features'].filter(function (item) {
-          return item === el.value;
-        });
+    let housingFeaturesItems = Array.from(housingFeatures.querySelectorAll('input[type="checkbox"]:checked'));
+    filterData = filterData.filter(function (element) {
+      return housingFeaturesItems.every(function (item) {
+        return element['offer']['features'].includes(item.value);
       });
-      console.log(housingFeaturesFilterData);
     });
-    console.log('housingFeaturesFilterData' + housingFeaturesFilterData);
   }
   window.updateElements(filterData);
 };

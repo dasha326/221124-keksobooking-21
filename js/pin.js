@@ -52,7 +52,9 @@
     };
     let moveUp = function () {
       document.removeEventListener('mousemove', moveOn);
-      window.util.addActive();
+      if (window.map.matches('.map--faded')) {
+        window.util.addActive();
+      }
     };
 
     document.addEventListener('mousemove', moveOn);
