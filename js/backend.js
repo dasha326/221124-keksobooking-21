@@ -1,56 +1,56 @@
 'use strict';
 (function () {
   window.backend = {
-    load: function (onLoad, onError) {
-      let url = 'https://21.javascript.pages.academy/keksobooking/data';
+    load(onLoad, onError) {
+      let url = `https://21.javascript.pages.academy/keksobooking/data`;
       let xhr = new XMLHttpRequest();
-      xhr.responseType = 'json';
+      xhr.responseType = `json`;
       xhr.timeout = 10000;
 
-      xhr.open('GET', url);
+      xhr.open(`GET`, url);
       xhr.send();
 
-      xhr.addEventListener('load', function () {
-        var error;
+      xhr.addEventListener(`load`, function () {
+        let error;
         switch (xhr.status) {
           case 200:
             onLoad(xhr.response);
             break;
           case 404:
-            error = 'Файл не найден';
+            error = `Файл не найден`;
             break;
           default:
-            error = 'Cтатус ответа: : ' + xhr.status + ' ' + xhr.statusText;
+            error = `Cтатус ответа: : ` + xhr.status + ` ` + xhr.statusText;
         }
         if (error) {
           onError(error);
         }
       });
-      xhr.addEventListener('error', function () {
+      xhr.addEventListener(`error`, function () {
         onError(xhr.status);
       });
-      xhr.addEventListener('timeout', function () {
-        onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+      xhr.addEventListener(`timeout`, function () {
+        onError(`Запрос не успел выполниться за ` + xhr.timeout + `мс`);
       });
     },
-    upload: function (data, onLoad, onError) {
-      let url = 'https://21.javascript.pages.academy/keksobooking';
+    upload(data, onLoad, onError) {
+      let url = `https://21.javascript.pages.academy/keksobooking`;
       let xhr = new XMLHttpRequest();
-      xhr.open('POST', url);
+      xhr.open(`POST`, url);
       xhr.send(data);
-      xhr.addEventListener('load', function () {
+      xhr.addEventListener(`load`, function () {
         if (xhr.status === 200) {
           onLoad();
         } else {
           onError();
         }
       });
-      xhr.addEventListener('error', function () {
+      xhr.addEventListener(`error`, function () {
         onError();
       });
     },
-    errorMessage: function (error) {
-      let errorElement = document.createElement('div');
+    errorMessage(error) {
+      let errorElement = document.createElement(`div`);
       errorElement.style.cssText = `
       position: fixed;
       background-color: #f0f0ea;

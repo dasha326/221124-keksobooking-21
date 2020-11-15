@@ -1,51 +1,47 @@
 'use strict';
 (function () {
-  const ESC_KEYCODE = 'Escape';
-  const ENTER_KEYCODE = 'Enter';
-  window.map = document.querySelector('.map');
+  const ESC_KEYCODE = `Escape`;
+  const ENTER_KEYCODE = `Enter`;
+  window.map = document.querySelector(`.map`);
   window.mapWidth = window.map.offsetWidth;
-  window.mapPinsContainer = document.querySelector('.map__pins');
-  window.addressField = document.querySelector('#address');
-  window.addForm = document.querySelector('.ad-form');
-  window.addFormFieldsets = window.addForm.querySelectorAll('fieldset');
-  window.mapFilter = document.querySelector('.map__filters-container');
+  window.mapPinsContainer = document.querySelector(`.map__pins`);
+  window.addressField = document.querySelector(`#address`);
+  window.addForm = document.querySelector(`.ad-form`);
+  window.addFormFieldsets = window.addForm.querySelectorAll(`fieldset`);
+  window.mapFilter = document.querySelector(`.map__filters-container`);
   window.elementsData = [];
 
   window.util = {
-    randomInteger: function (min, max) {
-      let rand = min + Math.random() * (max + 1 - min);
-      return Math.floor(rand);
-    },
-    isEscEvent: function (e, action, param) {
+    isEscEvent(e, action, param) {
       if (e.key === ESC_KEYCODE) {
         action(param);
       }
     },
-    isEnterEvent: function (e, action, element) {
+    isEnterEvent(e, action, element) {
       if (e.key === ENTER_KEYCODE) {
         action(element);
       }
     },
-    addActive: function () {
+    addActive() {
       window.addFormFieldsets.forEach(function (element) {
-        element.removeAttribute('disabled');
+        element.removeAttribute(`disabled`);
       });
-      window.map.classList.remove('map--faded');
-      window.addForm.classList.remove('ad-form--disabled');
+      window.map.classList.remove(`map--faded`);
+      window.addForm.classList.remove(`ad-form--disabled`);
       window.backend.load(window.dataHandler, window.backend.errorMessage);
     },
-    removeActive: function () {
+    removeActive() {
       window.addFormFieldsets.forEach(function (element) {
-        element.setAttribute('disabled', 'disabled');
+        element.setAttribute(`disabled`, `disabled`);
       });
-      window.map.classList.add('map--faded');
-      window.addForm.classList.add('ad-form--disabled');
+      window.map.classList.add(`map--faded`);
+      window.addForm.classList.add(`ad-form--disabled`);
     },
-    validMessage: function (element, message) {
+    validMessage(element, message) {
       element.setCustomValidity(message);
     },
-    closeHandler: function (element) {
-      element.style.display = 'none';
+    closeHandler(element) {
+      element.style.display = `none`;
     }
   };
 })();
