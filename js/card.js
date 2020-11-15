@@ -49,6 +49,11 @@
 
     // Features
     let cardFeatures = newCard.querySelector('.popup__features');
+    let featuresText = '';
+    features.forEach(function (element, index, array) {
+      featuresText += element + (index < array.length - 1 ? ', ' : '');
+    });
+    features = featuresText;
     cardFeatures.textContent = features;
 
     // Description

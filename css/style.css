@@ -588,7 +588,9 @@ fieldset {
   border: 1px solid #d9d9d3;
   border-radius: 4px;
 }
-
+.ad-form__element input.error-input {
+  border-color: red;
+}
 .ad-form__element input:hover,
 .ad-form__element select:hover,
 .ad-form__element textarea:hover {

@@ -9,6 +9,7 @@
   window.addForm = document.querySelector('.ad-form');
   window.addFormFieldsets = window.addForm.querySelectorAll('fieldset');
   window.mapFilter = document.querySelector('.map__filters-container');
+  window.elementsData = [];
 
   window.util = {
     randomInteger: function (min, max) {
@@ -31,6 +32,7 @@
       });
       window.map.classList.remove('map--faded');
       window.addForm.classList.remove('ad-form--disabled');
+      window.backend.load(window.dataHandler, window.backend.errorMessage);
     },
     removeActive: function () {
       window.addFormFieldsets.forEach(function (element) {
