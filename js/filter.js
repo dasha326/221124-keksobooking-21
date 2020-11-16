@@ -66,5 +66,5 @@ window.filterHandler = function (data, event) {
   window.updateElements(filterData);
 };
 filterForm.addEventListener(`change`, function (e) {
-  window.filterHandler(window.elementsData, e);
+  window.util.debounce(window.filterHandler(window.elementsData, e));
 });

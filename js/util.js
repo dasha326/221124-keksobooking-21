@@ -2,6 +2,7 @@
 (function () {
   const ESC_KEYCODE = `Escape`;
   const ENTER_KEYCODE = `Enter`;
+  const DEBOUNCE_INTERVAL = 300;
   window.map = document.querySelector(`.map`);
   window.mapWidth = window.map.offsetWidth;
   window.mapPinsContainer = document.querySelector(`.map__pins`);
@@ -42,6 +43,17 @@
     },
     closeHandler(element) {
       element.style.display = `none`;
+    },
+    debounce(cb) {
+      let lastTimeout = null;
+      return function (...parameters) {
+        if (lastTimeout) {
+          window.clearTimeout(lastTimeout);
+        }
+        lastTimeout = window.setTimeout(function() {
+          cb(...parameters);
+        }, DEBOUNCE_INTERVAL);
+      };
     }
   };
 })();
