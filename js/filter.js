@@ -9,11 +9,10 @@ const housingGuests = filterForm.querySelector(`#housing-guests`);
 const housingFeatures = filterForm.querySelector(`#housing-features`);
 
 window.filterHandler = function (data, event) {
-  let housingTypeValue = housingType.value;
-  let housingPriceValue = housingPrice.value;
+  const housingTypeValue = housingType.value;
+  const housingPriceValue = housingPrice.value;
   let housingRoomsValue = housingRooms.value;
   let housingGuestsValue = housingGuests.value;
-  let housingFeaturesValue = [];
   let filterData = data;
 
   if (housingTypeValue !== `any`) {

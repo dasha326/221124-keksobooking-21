@@ -2,8 +2,8 @@
 (function () {
   window.backend = {
     load(onLoad, onError) {
-      let url = `https://21.javascript.pages.academy/keksobooking/data`;
-      let xhr = new XMLHttpRequest();
+      const url = `https://21.javascript.pages.academy/keksobooking/data`;
+      const xhr = new XMLHttpRequest();
       xhr.responseType = `json`;
       xhr.timeout = 10000;
 
@@ -34,8 +34,8 @@
       });
     },
     upload(data, onLoad, onError) {
-      let url = `https://21.javascript.pages.academy/keksobooking`;
-      let xhr = new XMLHttpRequest();
+      const url = `https://21.javascript.pages.academy/keksobooking`;
+      const xhr = new XMLHttpRequest();
       xhr.open(`POST`, url);
       xhr.send(data);
       xhr.addEventListener(`load`, function () {
@@ -50,7 +50,7 @@
       });
     },
     errorMessage(error) {
-      let errorElement = document.createElement(`div`);
+      const errorElement = document.createElement(`div`);
       errorElement.style.cssText = `
       position: fixed;
       background-color: #f0f0ea;

@@ -37,6 +37,7 @@
       });
       window.map.classList.add(`map--faded`);
       window.addForm.classList.add(`ad-form--disabled`);
+      window.addForm.reset();
     },
     validMessage(element, message) {
       element.setCustomValidity(message);
@@ -50,7 +51,7 @@
         if (lastTimeout) {
           window.clearTimeout(lastTimeout);
         }
-        lastTimeout = window.setTimeout(function() {
+        lastTimeout = window.setTimeout(function () {
           cb(...parameters);
         }, DEBOUNCE_INTERVAL);
       };
