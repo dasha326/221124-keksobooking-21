@@ -1,6 +1,10 @@
 'use strict';
 const MIN_PRICE = 10000;
 const MAX_PRICE = 50000;
+const ALL_VALUE_NAME = `any`;
+const MIDDLE_VALUE_NAME = `middle`;
+const LOW_VALUE_NAME = `low`;
+const HIGH_VALUE_NAME = `high`;
 const filterForm = document.querySelector(`.map__filters`);
 const housingType = filterForm.querySelector(`#housing-type`);
 const housingPrice = filterForm.querySelector(`#housing-price`);
@@ -15,39 +19,39 @@ window.filterHandler = function (data, event) {
   let housingGuestsValue = housingGuests.value;
   let filterData = data;
 
-  if (housingTypeValue !== `any`) {
+  if (housingTypeValue !== ALL_VALUE_NAME) {
     filterData = data.filter(function (element) {
       return element[`offer`][`type`] === housingTypeValue;
     });
   } else {
     filterData = data;
   }
-  if (housingPriceValue !== `any`) {
+  if (housingPriceValue !== ALL_VALUE_NAME) {
     switch (housingPriceValue) {
-      case `middle`:
+      case MIDDLE_VALUE_NAME:
         filterData = filterData.filter(function (element) {
           return element[`offer`][`price`] >= MIN_PRICE && element[`offer`][`price`] <= MAX_PRICE;
         });
         break;
-      case `low`:
+      case LOW_VALUE_NAME:
         filterData = filterData.filter(function (element) {
           return element[`offer`][`price`] < MIN_PRICE;
         });
         break;
-      case `high`:
+      case HIGH_VALUE_NAME:
         filterData = filterData.filter(function (element) {
           return element[`offer`][`price`] > MAX_PRICE;
         });
         break;
     }
   }
-  if (housingRoomsValue !== `any`) {
+  if (housingRoomsValue !== ALL_VALUE_NAME) {
     housingRoomsValue = parseInt(housingRoomsValue, 10);
     filterData = filterData.filter(function (element) {
       return element[`offer`][`rooms`] === housingRoomsValue;
     });
   }
-  if (housingGuestsValue !== `any`) {
+  if (housingGuestsValue !== ALL_VALUE_NAME) {
     housingGuestsValue = parseInt(housingGuestsValue, 10);
     filterData = filterData.filter(function (element) {
       return element[`offer`][`guests`] === housingGuestsValue;

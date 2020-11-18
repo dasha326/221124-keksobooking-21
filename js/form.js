@@ -8,6 +8,10 @@
   const HOUSE_MIN_PRICE = 5000;
   const PALACE_MIN_PRICE = 10000;
   const MAX_PRICE = 1000000;
+  const BUNGALOW = `bungalow`;
+  const FLAT = `flat`;
+  const HOUSE = `house`;
+  const PALACE = `palace`;
   const addressValue = Math.floor(window.startPinLocation.x) + `, ` + Math.floor(window.startPinLocation.y);
   const titleField = document.querySelector(`#title`);
   const typeField = document.querySelector(`#type`);
@@ -65,16 +69,16 @@
 
   typeField.addEventListener(`change`, function () {
     switch (typeField.value) {
-      case `bungalow`:
+      case BUNGALOW:
         priceField.placeholder = BUNGALOW_MIN_PRICE;
         break;
-      case `flat`:
+      case FLAT:
         priceField.placeholder = FLAT_MIN_PRICE;
         break;
-      case `house`:
+      case HOUSE:
         priceField.placeholder = HOUSE_MIN_PRICE;
         break;
-      case `palace`:
+      case PALACE:
         priceField.placeholder = PALACE_MIN_PRICE;
         break;
     }
@@ -113,23 +117,23 @@
     const minErrorMessage = `Минимальная цена за ночь: `;
     const maxErrorMessage = `Вы превысили максимальную цену за ночь `;
     switch (type) {
-      case `flat`:
+      case FLAT:
         if (price < FLAT_MIN_PRICE) {
-          window.util.validMessage(priceField, minErrorMessage + `1000`);
+          window.util.validMessage(priceField, minErrorMessage + FLAT_MIN_PRICE);
         } else {
           window.util.validMessage(priceField, ``);
         }
         break;
-      case `house`:
+      case HOUSE:
         if (price < HOUSE_MIN_PRICE) {
-          window.util.validMessage(priceField, minErrorMessage + `5000`);
+          window.util.validMessage(priceField, minErrorMessage + HOUSE_MIN_PRICE);
         } else {
           window.util.validMessage(priceField, ``);
         }
         break;
-      case `palace`:
+      case PALACE:
         if (price < PALACE_MIN_PRICE) {
-          window.util.validMessage(priceField, minErrorMessage + `10000`);
+          window.util.validMessage(priceField, minErrorMessage + PALACE_MIN_PRICE);
         } else {
           window.util.validMessage(priceField, ``);
         }
@@ -180,16 +184,28 @@
   }
   photosField.addEventListener(`change`, showFiles, false);
 
+  // Error
+  const removeError = function (element) {
+    element.remove();
+  };
   const createError = function () {
     const newErrorTemplate = document.querySelector(`#error`).content;
     const newError = newErrorTemplate.querySelector(`.error`).cloneNode(true);
     const newErrorCloseBtn = newError.querySelector(`.error__button`);
 
     newErrorCloseBtn.addEventListener(`click`, function () {
-      newError.remove();
+      removeError(newError);
+    });
+    document.addEventListener(`keydown`, function (e) {
+      window.util.isEscEvent(e, removeError, newError);
+    });
+    document.addEventListener(`click`, function () {
+      removeError(newError);
     });
     document.querySelector(`main`).append(newError);
   };
+
+  // Success
   const createSuccess = function () {
     const resetData = [];
     const newSuccessTemplate = document.querySelector(`#success`).content;
@@ -203,11 +219,13 @@
     document.querySelector(`main`).append(newSuccess);
     resetFormHandler();
     window.updateElements(resetData);
+    window.util.removeActive();
   };
   const successClose = function (element) {
     element.remove();
   };
 
+  // Invalid
   const addInvalidStyle = function (element) {
     element.addEventListener(`invalid`, function () {
       if (element.validity.valid === false) {
@@ -219,13 +237,14 @@
     addInvalidStyle(element);
   });
 
-  window.addForm.addEventListener(`submit`, function (e) {
-    e.preventDefault();
-    window.backend.upload(new FormData(window.addForm), createSuccess, createError);
-  });
-
   // Reset form
   resetBtn.addEventListener(`click`, function () {
     resetFormHandler();
+  });
+
+  // Send form
+  window.addForm.addEventListener(`submit`, function (e) {
+    e.preventDefault();
+    window.backend.upload(new FormData(window.addForm), createSuccess, createError);
   });
 })();

@@ -2,6 +2,10 @@
 
 (function () {
   // Create Card
+  const BUNGALOW = `bungalow`;
+  const FLAT = `flat`;
+  const HOUSE = `house`;
+  const PALACE = `palace`;
   const cardTemplate = document.querySelector(`#card`).content;
   window.createCard = function (title, address, price, type, rooms, guests, checkin, checkout, features, description, photos, avatar, number, fragment) {
     const newCard = cardTemplate.querySelector(`.map__card`).cloneNode(true);
@@ -23,16 +27,16 @@
     // Type
     const cardType = newCard.querySelector(`.popup__type`);
     switch (type) {
-      case `flat`:
+      case FLAT:
         cardType.textContent = `Квартира`;
         break;
-      case `bungalow`:
+      case BUNGALOW:
         cardType.textContent = `Бунгало`;
         break;
-      case `house`:
+      case HOUSE:
         cardType.textContent = `Дом`;
         break;
-      case `palace`:
+      case PALACE:
         cardType.textContent = `Дворец`;
         break;
       default:

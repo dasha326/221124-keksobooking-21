@@ -1,5 +1,7 @@
 'use strict';
 (function () {
+  const SUCCESS = 200;
+  const NOT_FOUND = 200;
   window.backend = {
     load(onLoad, onError) {
       const url = `https://21.javascript.pages.academy/keksobooking/data`;
@@ -13,10 +15,10 @@
       xhr.addEventListener(`load`, function () {
         let error;
         switch (xhr.status) {
-          case 200:
+          case SUCCESS:
             onLoad(xhr.response);
             break;
-          case 404:
+          case NOT_FOUND:
             error = `Файл не найден`;
             break;
           default:
@@ -39,7 +41,7 @@
       xhr.open(`POST`, url);
       xhr.send(data);
       xhr.addEventListener(`load`, function () {
-        if (xhr.status === 200) {
+        if (xhr.status === SUCCESS) {
           onLoad();
         } else {
           onError();

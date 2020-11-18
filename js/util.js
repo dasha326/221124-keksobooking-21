@@ -3,6 +3,9 @@
   const ESC_KEYCODE = `Escape`;
   const ENTER_KEYCODE = `Enter`;
   const DEBOUNCE_INTERVAL = 300;
+  const startPin = document.querySelector(`.map__pin--main`);
+  window.startPinLocatinLeft = parseInt(startPin.style.left, 10) + startPin.offsetWidth / 2;
+  window.startPinLocatinTop = parseInt(startPin.style.top, 10) + startPin.offsetHeight / 2;
   window.map = document.querySelector(`.map`);
   window.mapWidth = window.map.offsetWidth;
   window.mapPinsContainer = document.querySelector(`.map__pins`);
@@ -37,7 +40,8 @@
       });
       window.map.classList.add(`map--faded`);
       window.addForm.classList.add(`ad-form--disabled`);
-      window.addForm.reset();
+      startPin.style.top = window.startPinLocatinTop + `px`;
+      startPin.style.left = window.startPinLocatinLeft + `px`;
     },
     validMessage(element, message) {
       element.setCustomValidity(message);

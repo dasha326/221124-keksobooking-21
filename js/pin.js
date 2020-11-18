@@ -2,8 +2,6 @@
 // Start Pin
 (function () {
   const startPin = document.querySelector(`.map__pin--main`);
-  window.startPinLocatinLeft = parseInt(startPin.style.left, 10) + startPin.offsetWidth / 2;
-  window.startPinLocatinTop = parseInt(startPin.style.top, 10) + startPin.offsetHeight / 2;
   window.startPinLocation = {
     x: parseInt(startPin.style.left, 10) + startPin.offsetWidth / 2,
     y: parseInt(startPin.style.top, 10) + startPin.offsetHeight / 2
@@ -11,6 +9,12 @@
 
   startPin.addEventListener(`keydown`, function (e) {
     window.util.isEnterEvent(e, window.util.addActive);
+  });
+
+  startPin.addEventListener(`click`, function () {
+    if (window.map.matches(`.map--faded`)) {
+      window.util.addActive();
+    }
   });
 
   startPin.addEventListener(`mousedown`, function (e) {
@@ -52,14 +56,12 @@
       window.addressField.value = Math.floor(window.startPinLocation.x) + `, ` + Math.floor(window.startPinLocation.y);
     };
     const moveUp = function () {
-      startPin.removeEventListener(`mousemove`, moveOn);
-      if (window.map.matches(`.map--faded`)) {
-        window.util.addActive();
-      }
+      document.removeEventListener(`mousemove`, moveOn);
     };
 
-    startPin.addEventListener(`mousemove`, moveOn);
-    startPin.addEventListener(`mouseup`, moveUp);
+    document.removeEventListener(`click`, moveOn);
+    document.addEventListener(`mousemove`, moveOn);
+    document.addEventListener(`mouseup`, moveUp);
   });
 })();
 
